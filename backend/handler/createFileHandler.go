@@ -30,6 +30,9 @@ func (h *Handler) CreateFileHandler(ctx *gin.Context) {
 		return
 	}
 
+	bytesSize := file.Size
+	mime := file.Header.Get("Content-Type")
+
 	f, err := file.Open()
 	
 	if err != nil {
@@ -43,7 +46,7 @@ func (h *Handler) CreateFileHandler(ctx *gin.Context) {
 
 	c := ctx.Request.Context()
 
-	err = h.controller.UploadController(&c, file.Filename, f, parentId, userId.(string))
+	err = h.controller.UploadController(&c, file.Filename, f, bytesSize, mime,parentId, userId.(string))
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{

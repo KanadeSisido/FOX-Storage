@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,8 +10,6 @@ import (
 func (h *Handler) RootNameHandler(ctx *gin.Context){
 
 	userId, exists := ctx.Get("userId")
-
-	fmt.Println(userId)
 
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{

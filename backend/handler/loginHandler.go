@@ -34,7 +34,7 @@ func (h *Handler) LoginHandler(ctx *gin.Context) {
 	}
 
 	ctx.SetCookie("Authorization", *token, 3600, "/", "localhost", false, true)
-	ctx.SetSameSite(http.SameSiteNoneMode)
+	ctx.SetSameSite(http.SameSiteLaxMode)
 	ctx.Header("Access-Control-Allow-Credentials", "true")
 	ctx.JSON(http.StatusAccepted, gin.H{"message": "logined successfully"})
 }
