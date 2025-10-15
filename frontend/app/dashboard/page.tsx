@@ -11,13 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Upload, FolderPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface FileItem {
+export interface FileItem {
 	id: string;
 	name: string;
 	type: "file" | "folder";
 	size?: number;
-	createdAt: string;
-	mimeType?: string;
+	mime: string;
+	updated_at: string;
 }
 
 export default function DashboardPage() {
@@ -35,18 +35,24 @@ export default function DashboardPage() {
 			if (userData) {
 				const parsedUser = JSON.parse(userData);
 
-				const data = await (
-					await fetch("http://localhost:8080/s/rootName", {
+				try {
+					const response = await fetch("http://localhost:8080/s/rootName", {
 						method: "GET",
 						credentials: "include",
-					})
-				).json();
+					});
+					const data = await response.json();
 
-				console.log(data.rootId);
-
-				setRootId(data.rootId);
-				loadRootFiles(parsedUser.rootName);
+					if (data.rootId) {
+						setRootId(data.rootId);
+						await loadRootFiles(data.rootId);
+					} else {
+						console.error("rootId is undefined:", data);
+					}
+				} catch (error) {
+					console.error("Failed to fetch rootId:", error);
+				}
 			}
+			setIsLoading(false);
 		};
 
 		f();
@@ -55,11 +61,25 @@ export default function DashboardPage() {
 	const loadRootFiles = async (rootName: string) => {
 		setIsLoading(true);
 		try {
-			const response = await fetch(`/s/${rootName}`);
+			const response = await fetch(`http://localhost:8080/s/${rootName}/`, {
+				method: "GET",
+				credentials: "include",
+			});
+
 			if (response.ok) {
-				const data = await response.json();
-				setFiles(data.files || []);
-				setFolders(data.folders || []);
+				const json: { items: FileItem[] } = await response.json();
+				const data = json.items;
+
+				const files = data.filter((item) => {
+					return item.type === "file";
+				});
+
+				const folders = data.filter((item) => {
+					return item.type === "folder";
+				});
+
+				setFiles(files || []);
+				setFolders(folders || []);
 			}
 		} catch (error) {
 			console.error("Failed to load files:", error);
@@ -81,7 +101,13 @@ export default function DashboardPage() {
 
 	const handleDownload = async (fileId: string, fileName: string) => {
 		try {
-			const response = await fetch(`/s/${rootId}/file/${fileId}`);
+			const response = await fetch(
+				`http://localhost:8080/s/${rootId}/file/${fileId}`,
+				{
+					method: "GET",
+					credentials: "include",
+				}
+			);
 			if (response.ok) {
 				const blob = await response.blob();
 				const url = window.URL.createObjectURL(blob);
@@ -120,7 +146,10 @@ export default function DashboardPage() {
 
 							<div className='mt-6'>
 								<div className='flex items-center justify-between mb-6'>
-									<h2 className='text-2xl font-bold text-foreground'>
+									<h2
+										className='text-2xl font-bold text-foreground hover:cursor-pointer'
+										onClick={refreshFiles}
+									>
 										マイファイル
 									</h2>
 									<div className='flex gap-2'>
