@@ -29,16 +29,15 @@ func NewRouter(_handler *handler.Handler) *gin.Engine {
 		file := storage.Group("/file")
 		{
 			file.POST("/upload", _handler.CreateFileHandler)	// "/:folderId/file/upload" ファイルアップロード
-			file.GET("/:id", _handler.PingHandler)		// "/:folderId/file/:id" ファイルダウンロード
+			file.GET("/:id", _handler.FileHandler)		// "/:folderId/file/:id" ファイルダウンロード
 		}
 
 		folder := storage.Group("/folder")
 		{
 			folder.POST("/create", _handler.CreateFolderHandler)	// "/:folderId/folder/create"
 		}
-		
+	
 	}
-
 
 	return router
 }
