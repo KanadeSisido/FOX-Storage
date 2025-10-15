@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func (s *Service) CreateFile(ctx *context.Context, name string, file io.Reader, parentId *string, userId string) error {
+func (s *Service) CreateFile(ctx *context.Context, name string, file io.Reader, bytesSize int64, mime string, parentId *string, userId string) error {
 
 	permission, err := s.repository.GetPermissionByUserID(ctx, *parentId, userId);
 
@@ -20,7 +20,7 @@ func (s *Service) CreateFile(ctx *context.Context, name string, file io.Reader, 
 	}
 
 	_name := filepath.Base(name) //example.txt
-	f, err :=  s.repository.CreateItem(ctx, _name, "file", parentId, userId, nil, nil)
+	f, err :=  s.repository.CreateItem(ctx, _name, "file", parentId, userId, &mime, &bytesSize)
 	
 	if err != nil {
 		return err
