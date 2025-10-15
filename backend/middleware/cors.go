@@ -15,7 +15,6 @@ func CorsMiddleWare() gin.HandlerFunc {
 	fmt.Println(err)
 
 	conf := cors.DefaultConfig()
-	fmt.Println(os.Getenv("FRONT_ORIGIN"))
 	conf.AllowOrigins = []string{os.Getenv("FRONT_ORIGIN")}
 	conf.AllowMethods = []string{"GET", "POST", "OPTIONS"}
 	conf.AllowCredentials = true

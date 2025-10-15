@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -20,8 +19,6 @@ type Claims struct {
 func Auth(c *gin.Context) {
 
 	tokenStr, err := c.Cookie("Authorization")
-
-	fmt.Println(tokenStr)
 	
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Un Authorized Error"})
@@ -52,21 +49,5 @@ func Auth(c *gin.Context) {
 	}
 
 	c.Set("userId", claims.UserID)
-
-
-	switch {
-		case token.Valid:
-			fmt.Println("You look nice today")		
-		case errors.Is(err, jwt.ErrTokenMalformed):
-			fmt.Println("That's not even a token")
-		case errors.Is(err, jwt.ErrTokenSignatureInvalid):
-			// Invalid signature
-			fmt.Println("Invalid signature")
-		case errors.Is(err, jwt.ErrTokenExpired) || errors.Is(err, jwt.ErrTokenNotValidYet):
-			// Token is either expired or not active yet
-			fmt.Println("Timing is everything")
-		default:
-			fmt.Println("Couldn't handle this token:", err)
-	}
 
 }
