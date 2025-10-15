@@ -27,6 +27,7 @@ func itemsToItemsDto(items []model.Item) []dto.ItemsDto {
 	for _, item := range items {
 
 		var sizeBytes int64
+		var mime string;
 
 		if item.SizeBytes == nil {
 			sizeBytes = 0
@@ -34,11 +35,18 @@ func itemsToItemsDto(items []model.Item) []dto.ItemsDto {
 			sizeBytes = *item.SizeBytes
 		}
 
+		if item.MimeType == nil {
+			mime = ""
+		} else {
+			mime = *item.MimeType
+		}
+
 		itemDtos = append(itemDtos, dto.ItemsDto{
 			ID: item.ID,
 			Name: item.Name,
 			Type: item.Type,
 			SizeBytes: sizeBytes,
+			Mime: mime,
 			UpdatedAt: item.UpdatedAt,
 		})
 	}
