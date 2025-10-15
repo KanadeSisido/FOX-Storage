@@ -12,9 +12,7 @@ import (
 func InitDB() (*gorm.DB, error) {
 
 	dsn := createDsn(os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"),os.Getenv("DB_NAME"))
-	//dsn := createDsn("process", "charles_sanders_peirce","fox_storage")
 
-	fmt.Println(dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	db.AutoMigrate(
 		&model.User{},
