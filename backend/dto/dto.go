@@ -11,5 +11,6 @@ type ItemsDto struct {
 	Name      string    `json:"name"`
 	Type      model.ItemType `json:"type"`
 	SizeBytes int64     `json:"size"`
+	Mime string `json:"mime"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
