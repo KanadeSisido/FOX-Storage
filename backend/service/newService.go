@@ -18,8 +18,8 @@ type itemService struct {
 	repository repository.ItemRepository
 }
 
-func NewItemService(repo repository.ItemRepository) (ItemService, error) {
-	return &itemService{repository: repo}, nil
+func NewItemService(repo repository.ItemRepository) ItemService {
+	return itemService{repository: repo}
 }
 
 type UserService interface {
@@ -33,6 +33,6 @@ type userService struct {
 	repository repository.UserRepository
 }
 
-func NewUserService(repo repository.UserRepository) (UserService, error) {
-	return &userService{repository: repo}, nil
+func NewUserService(repo repository.UserRepository) UserService {
+	return userService{repository: repo}
 }
