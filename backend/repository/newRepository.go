@@ -20,8 +20,8 @@ type itemRepository struct {
 	db *gorm.DB
 }
 
-func NewItemRepository(db gorm.DB) (ItemRepository, error) {
-	return itemRepository{db: &db}, nil
+func NewItemRepository(db *gorm.DB) ItemRepository {
+	return itemRepository{db: db}
 }
 
 type UserRepository interface {
@@ -34,6 +34,6 @@ type userRepository struct {
 	db *gorm.DB
 }
 
-func NewUserRepository(db gorm.DB) (UserRepository, error) {
-	return userRepository{db: &db}, nil
+func NewUserRepository(db *gorm.DB) UserRepository {
+	return userRepository{db: db}
 }
