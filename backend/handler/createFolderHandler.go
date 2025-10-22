@@ -10,11 +10,11 @@ type CreateFolderDto struct {
 	Name string `json:"name"`
 }
 
-func (h *Handler) CreateFolderHandler(ctx *gin.Context){
+func (h itemsHandler) CreateFolderHandler(ctx *gin.Context) {
 
 	ParentID := ctx.Param("folderId")
-	
-	var createFolder CreateFolderDto;
+
+	var createFolder CreateFolderDto
 	err := ctx.ShouldBind(&createFolder)
 
 	if err != nil {
@@ -34,8 +34,8 @@ func (h *Handler) CreateFolderHandler(ctx *gin.Context){
 	}
 
 	context := ctx.Request.Context()
-	
-	err = h.controller.CreateFolderController(&context, createFolder.Name, &ParentID, userID.(string))
+
+	err = h.controller.CreateFolderController(context, createFolder.Name, &ParentID, userID.(string))
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -45,7 +45,7 @@ func (h *Handler) CreateFolderHandler(ctx *gin.Context){
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "created successfully",	
+		"message": "created successfully",
 	})
 
 }
