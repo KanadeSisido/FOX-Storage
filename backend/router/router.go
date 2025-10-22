@@ -24,7 +24,7 @@ func NewRouter(_itemHandler handler.ItemHandler, _userHandler handler.UserHandle
 
 		storage := perm.Group("/:folderId")
 
-		storage.GET("/", _itemHandler.FileHandler) // "/:folderId/" フォルダの内容を表示する
+		storage.GET("/", _itemHandler.FolderHandler) // "/:folderId/" フォルダの内容を表示する
 
 		file := storage.Group("/file")
 		{

@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"fmt"
 )
 
 func (s itemService) GetFileName(ctx context.Context, fileId string, userId string) (*string, *string, error) {
@@ -19,8 +18,6 @@ func (s itemService) GetFileName(ctx context.Context, fileId string, userId stri
 	}
 
 	item, err := s.repository.GetItemLocationById(ctx, fileId)
-
-	fmt.Println(item)
 
 	filepath := "./storage/" + item.StorageKey
 
