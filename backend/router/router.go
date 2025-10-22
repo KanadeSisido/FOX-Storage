@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewItemsRouter(_itemsHandler handler.ItemsHandler, _userHandler handler.UserHandler) *gin.Engine {
+func NewRouter(_itemHandler handler.ItemHandler, _userHandler handler.UserHandler) *gin.Engine {
 
 	router := gin.Default()
 	router.Use(middleware.CorsMiddleWare())
@@ -24,17 +24,17 @@ func NewItemsRouter(_itemsHandler handler.ItemsHandler, _userHandler handler.Use
 
 		storage := perm.Group("/:folderId")
 
-		storage.GET("/", _itemsHandler.FileHandler) // "/:folderId/" フォルダの内容を表示する
+		storage.GET("/", _itemHandler.FileHandler) // "/:folderId/" フォルダの内容を表示する
 
 		file := storage.Group("/file")
 		{
-			file.POST("/upload", _itemsHandler.CreateFileHandler) // "/:folderId/file/upload" ファイルアップロード
-			file.GET("/:id", _itemsHandler.FileHandler)           // "/:folderId/file/:id" ファイルダウンロード
+			file.POST("/upload", _itemHandler.CreateFileHandler) // "/:folderId/file/upload" ファイルアップロード
+			file.GET("/:id", _itemHandler.FileHandler)           // "/:folderId/file/:id" ファイルダウンロード
 		}
 
 		folder := storage.Group("/folder")
 		{
-			folder.POST("/create", _itemsHandler.CreateFolderHandler) // "/:folderId/folder/create"
+			folder.POST("/create", _itemHandler.CreateFolderHandler) // "/:folderId/folder/create"
 		}
 
 	}
