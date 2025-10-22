@@ -6,7 +6,7 @@ import (
 	"fox-storage/model"
 )
 
-func (c *Controller) FolderController(ctx context.Context, folderId string, userId string) (*[]dto.ItemsDto, error) {
+func (c itemController) FolderController(ctx context.Context, folderId string, userId string) (*[]dto.ItemsDto, error) {
 	items, err := c.service.GetItems(ctx, folderId, userId)
 
 	if err != nil {
@@ -14,20 +14,18 @@ func (c *Controller) FolderController(ctx context.Context, folderId string, user
 	}
 
 	itemDtos := itemsToItemsDto(items)
-	
+
 	return &itemDtos, nil
 }
 
-
 func itemsToItemsDto(items []model.Item) []dto.ItemsDto {
-	
-	var itemDtos []dto.ItemsDto;
 
+	var itemDtos []dto.ItemsDto
 
 	for _, item := range items {
 
 		var sizeBytes int64
-		var mime string;
+		var mime string
 
 		if item.SizeBytes == nil {
 			sizeBytes = 0
@@ -42,11 +40,11 @@ func itemsToItemsDto(items []model.Item) []dto.ItemsDto {
 		}
 
 		itemDtos = append(itemDtos, dto.ItemsDto{
-			ID: item.ID,
-			Name: item.Name,
-			Type: item.Type,
+			ID:        item.ID,
+			Name:      item.Name,
+			Type:      item.Type,
 			SizeBytes: sizeBytes,
-			Mime: mime,
+			Mime:      mime,
 			UpdatedAt: item.UpdatedAt,
 		})
 	}
