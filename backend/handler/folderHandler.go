@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h itemsHandler) FolderHandler(ctx *gin.Context) {
+func (h itemHandler) FolderHandler(ctx *gin.Context) {
 
 	parentID := ctx.Param("folderId")
 	userId, exists := ctx.Get("userId")

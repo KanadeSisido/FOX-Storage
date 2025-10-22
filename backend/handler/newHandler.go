@@ -16,27 +16,27 @@ type userHandler struct {
 	controller controller.UserController
 }
 
-func NewUserHandler(_controller controller.UserController) userHandler {
+func NewUserHandler(_controller controller.UserController) UserHandler {
 
 	handler := userHandler{controller: _controller}
 
 	return handler
 }
 
-type ItemsHandler interface {
+type ItemHandler interface {
 	FolderHandler(ctx *gin.Context)
 	FileHandler(ctx *gin.Context)
 	CreateFolderHandler(ctx *gin.Context)
 	CreateFileHandler(ctx *gin.Context)
 }
 
-type itemsHandler struct {
+type itemHandler struct {
 	controller controller.ItemController
 }
 
-func NewHandler(_controller controller.ItemController) itemsHandler {
+func NewItemHandler(_controller controller.ItemController) ItemHandler {
 
-	handler := itemsHandler{controller: _controller}
+	handler := itemHandler{controller: _controller}
 
 	return handler
 }

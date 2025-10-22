@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h itemsHandler) CreateFileHandler(ctx *gin.Context) {
+func (h itemHandler) CreateFileHandler(ctx *gin.Context) {
 
 	parentId := ctx.Param("folderId")
 	file, err := ctx.FormFile("file")

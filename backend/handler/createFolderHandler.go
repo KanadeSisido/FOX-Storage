@@ -10,7 +10,7 @@ type CreateFolderDto struct {
 	Name string `json:"name"`
 }
 
-func (h itemsHandler) CreateFolderHandler(ctx *gin.Context) {
+func (h itemHandler) CreateFolderHandler(ctx *gin.Context) {
 
 	ParentID := ctx.Param("folderId")
 

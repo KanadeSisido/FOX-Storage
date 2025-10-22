@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h itemsHandler) FileHandler(ctx *gin.Context) {
+func (h itemHandler) FileHandler(ctx *gin.Context) {
 
 	fileId := ctx.Param("id")
 	userId, exists := ctx.Get("userId")
