@@ -11,7 +11,7 @@ type LoginForm struct {
 	Password string `json:"password"`
 }
 
-func (h *Handler) LoginHandler(ctx *gin.Context) {
+func (h userHandler) LoginHandler(ctx *gin.Context) {
 
 	var loginForm LoginForm
 	err := ctx.ShouldBind(&loginForm)
@@ -24,7 +24,7 @@ func (h *Handler) LoginHandler(ctx *gin.Context) {
 	}
 
 	c := ctx.Request.Context()
-	token, err := h.controller.LoginController(&c, loginForm.Username, loginForm.Password)
+	token, err := h.controller.LoginController(c, loginForm.Username, loginForm.Password)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{

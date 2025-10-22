@@ -7,8 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *Repository) GetUserByUsername(ctx *context.Context, username string) (*model.User, error) {
-	user, err := gorm.G[model.User](r.db).Where("name = ?", username).First(*ctx)
+func (r userRepository) GetUserByUsername(ctx context.Context, username string) (*model.User, error) {
+	user, err := gorm.G[model.User](r.db).Where("name = ?", username).First(ctx)
 
 	if err != nil {
 		return nil, err
@@ -17,8 +17,8 @@ func (r *Repository) GetUserByUsername(ctx *context.Context, username string) (*
 	return &user, nil
 }
 
-func (r *Repository) GetUserById(ctx *context.Context, userId string) (*model.User, error) {
-	user, err := gorm.G[model.User](r.db).Where("id = ?", userId).First(*ctx)
+func (r userRepository) GetUserById(ctx context.Context, userId string) (*model.User, error) {
+	user, err := gorm.G[model.User](r.db).Where("id = ?", userId).First(ctx)
 
 	if err != nil {
 		return nil, err
@@ -26,4 +26,3 @@ func (r *Repository) GetUserById(ctx *context.Context, userId string) (*model.Us
 
 	return &user, nil
 }
-

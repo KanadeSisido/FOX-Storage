@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitDB() (*gorm.DB, error) {
+func InitDB() *gorm.DB {
 
 	dsn := createDsn(os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"),os.Getenv("DB_NAME"))
 
@@ -22,10 +22,11 @@ func InitDB() (*gorm.DB, error) {
 	)
 
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		return nil
 	}
 
-	return db, nil
+	return db
 }
 
 

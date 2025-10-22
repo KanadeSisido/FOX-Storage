@@ -5,9 +5,9 @@ import (
 	"errors"
 )
 
-func (s *Service) CreateFolder(ctx *context.Context, name string, parentId *string, userId string) error {
+func (s itemService) CreateFolder(ctx context.Context, name string, parentId *string, userId string) error {
 
-	permission, err := s.repository.GetPermissionByUserID(ctx, *parentId, userId);
+	permission, err := s.repository.GetPermissionByUserID(ctx, *parentId, userId)
 
 	if err != nil {
 		return err
@@ -17,7 +17,7 @@ func (s *Service) CreateFolder(ctx *context.Context, name string, parentId *stri
 		return errors.New("access denied")
 	}
 
-	_, err =  s.repository.CreateItem(ctx, name, "folder", parentId, userId, nil, nil)
+	_, err = s.repository.CreateItem(ctx, name, "folder", parentId, userId, nil, nil)
 
 	return err
 }

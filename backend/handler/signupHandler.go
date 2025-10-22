@@ -7,13 +7,13 @@ import (
 )
 
 type SignUpForm struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
-func (h *Handler) SignUpHandler(ctx *gin.Context) {
-	
+func (h userHandler) SignUpHandler(ctx *gin.Context) {
+
 	var signUpForm SignUpForm
 	err := ctx.ShouldBind(&signUpForm)
 
@@ -25,7 +25,7 @@ func (h *Handler) SignUpHandler(ctx *gin.Context) {
 	}
 
 	c := ctx.Request.Context()
-	err = h.controller.SignupController(&c, signUpForm.Username, signUpForm.Email, signUpForm.Password)
+	err = h.controller.SignupController(c, signUpForm.Username, signUpForm.Email, signUpForm.Password)
 
 	// TODO: 詳細にする
 	if err != nil {
@@ -33,7 +33,7 @@ func (h *Handler) SignUpHandler(ctx *gin.Context) {
 			"message": "error",
 		})
 		return
-		
+
 	}
 	ctx.JSON(http.StatusAccepted, gin.H{"message": "registered successfully"})
 }

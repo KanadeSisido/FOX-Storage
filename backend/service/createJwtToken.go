@@ -9,7 +9,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func (s *Service) CreateJwtToken(userId string) (*string, error) {
+func (s userService) CreateJwtToken(userId string) (*string, error) {
 
 	claims := middleware.Claims{
 		UserID: userId,

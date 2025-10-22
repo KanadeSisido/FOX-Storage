@@ -6,20 +6,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CreateFileHandler(ctx *gin.Context) {
+func (h itemHandler) CreateFileHandler(ctx *gin.Context) {
 
 	parentId := ctx.Param("folderId")
 	file, err := ctx.FormFile("file")
-	
+
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "no attached file",
 		})
 		return
 	}
-	
+
 	userId, exists := ctx.Get("userId")
-	
+
 	if !exists {
 		ctx.JSON(
 			http.StatusUnauthorized,
@@ -34,7 +34,7 @@ func (h *Handler) CreateFileHandler(ctx *gin.Context) {
 	mime := file.Header.Get("Content-Type")
 
 	f, err := file.Open()
-	
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": "cannot open file",
@@ -46,7 +46,7 @@ func (h *Handler) CreateFileHandler(ctx *gin.Context) {
 
 	c := ctx.Request.Context()
 
-	err = h.controller.UploadController(&c, file.Filename, f, bytesSize, mime,parentId, userId.(string))
+	err = h.controller.UploadController(c, file.Filename, f, bytesSize, mime, parentId, userId.(string))
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
@@ -56,6 +56,6 @@ func (h *Handler) CreateFileHandler(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, gin.H{
-		"message":"created",
+		"message": "created",
 	})
 }

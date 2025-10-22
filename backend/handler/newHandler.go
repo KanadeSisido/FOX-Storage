@@ -2,15 +2,41 @@ package handler
 
 import (
 	"fox-storage/controller"
+
+	"github.com/gin-gonic/gin"
 )
 
-type Handler struct {
-	controller *controller.Controller
+type UserHandler interface {
+	LoginHandler(ctx *gin.Context)
+	RootNameHandler(ctx *gin.Context)
+	SignUpHandler(ctx *gin.Context)
 }
 
-func NewHandler(_controller *controller.Controller) *Handler {
-	
-	handler := Handler{controller: _controller}
+type userHandler struct {
+	controller controller.UserController
+}
 
-	return &handler
+func NewUserHandler(_controller controller.UserController) UserHandler {
+
+	handler := userHandler{controller: _controller}
+
+	return handler
+}
+
+type ItemHandler interface {
+	FolderHandler(ctx *gin.Context)
+	FileHandler(ctx *gin.Context)
+	CreateFolderHandler(ctx *gin.Context)
+	CreateFileHandler(ctx *gin.Context)
+}
+
+type itemHandler struct {
+	controller controller.ItemController
+}
+
+func NewItemHandler(_controller controller.ItemController) ItemHandler {
+
+	handler := itemHandler{controller: _controller}
+
+	return handler
 }

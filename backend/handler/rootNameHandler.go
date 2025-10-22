@@ -6,8 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-func (h *Handler) RootNameHandler(ctx *gin.Context){
+func (h userHandler) RootNameHandler(ctx *gin.Context) {
 
 	userId, exists := ctx.Get("userId")
 
@@ -19,11 +18,11 @@ func (h *Handler) RootNameHandler(ctx *gin.Context){
 	}
 
 	c := ctx.Request.Context()
-	rootId, err := h.controller.RootNameController(&c, userId.(string))
+	rootId, err := h.controller.RootNameController(c, userId.(string))
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message":"error",
+			"message": "error",
 		})
 		return
 	}
