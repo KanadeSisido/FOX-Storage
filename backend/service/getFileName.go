@@ -6,9 +6,9 @@ import (
 	"fmt"
 )
 
-func (s *Service) GetFileName(ctx context.Context, fileId string, userId string) (*string, *string, error) {
+func (s itemService) GetFileName(ctx context.Context, fileId string, userId string) (*string, *string, error) {
 
-	perm, err := s.repository.GetPermissionByUserID(&ctx, fileId, userId)
+	perm, err := s.repository.GetPermissionByUserID(ctx, fileId, userId)
 
 	if err != nil {
 		return nil, nil, errors.New("access denied")
@@ -18,7 +18,7 @@ func (s *Service) GetFileName(ctx context.Context, fileId string, userId string)
 		return nil, nil, errors.New("access denied")
 	}
 
-	item, err := s.repository.GetInsItemById(ctx, fileId)
+	item, err := s.repository.GetItemLocationById(ctx, fileId)
 
 	fmt.Println(item)
 
